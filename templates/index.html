@@ -88,9 +88,8 @@
       min-width: 100%;
       min-height: 100%;
 
-        /* Full height */
+      /* Full height */
       height: 100%;
-
 
       /* Center and scale the image nicely */
       background-position: center;
@@ -118,10 +117,14 @@
     }
 
     .controls {
-      width:220px;
-      height:220px;
-      background:#F0F0F0;
-      position:relative;
+      width:180px;
+      height:120px;
+      right: 50%;
+      bottom: 0;
+      /*
+      position: fixed;
+      z-index: 100;
+      */
     }
 
     .controls ul, .controls li {
@@ -141,24 +144,26 @@
       text-align:center;
     }
 
-    .controls .up {left:50%;margin-left:-35px;}
-    .controls .down {left:50%;bottom:0;margin-left:-35px;}
-    .controls .left {top:50%;margin-top:-35px;}
-    .controls .right {top:50%;right:0;margin-top:-35px;}
+    .controls .up {
+      left: 60px;
+    }
+    .controls .down {
+      left: 60px;
+      bottom: 0;
+    }
+    .controls .left {
+      bottom: 0;
+      left: 0;
+    }
+    .controls .right {
+      bottom: 0;
+      right: 0;
+    }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
-
-  <div class="controls">
-    <ul>
-      <li class="up" data-action="tilt:-1">Up</li>
-      <li class="down" data-action="tilt:+1">Down</li>
-      <li class="left" data-action="pan:+1">Left</li>
-      <li class="right" data-action="pan:-1">Right</li>
-    </ul>
-  </div>
 
   <div class="main" id="newpost">
     <img  class="camera-bg" style="width: 100%; height:80%; background-attachment: fixed;" id="bg" class="center" src="{{ url_for('video_feed') }}">
@@ -170,11 +175,19 @@
 
   <div class="navbar">
       <div class="ignoreCall">
-            <a id=decline class="but_def">
-                <button id="button">
-                    <i style="background: red; color: white;" class="fa fa-times fa-2x" aria-hidden="true"></i>
-                </button>
-           </a>
+          <a id=decline class="but_def">
+              <button id="button">
+                  <i style="background: red; color: white;" class="fa fa-times fa-2x" aria-hidden="true"></i>
+              </button>
+         </a>
+      </div>
+      <div class="controls">
+        <ul>
+          <li class="up" data-action="tilt:-1">Up</li>
+          <li class="down" data-action="tilt:+1">Down</li>
+          <li class="left" data-action="pan:+1">Left</li>
+          <li class="right" data-action="pan:-1">Right</li>
+        </ul>
       </div>
   </div>
 
