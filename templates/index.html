@@ -1,176 +1,275 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
+  <title>Pi Cam</title>
+  <meta name="charset" value="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style type="text/css">
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-.navbar {
-  overflow: hidden;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  margin: auto;
-  background-color: black;
-  opacity:0.6;
-}
+    .navbar {
+      overflow: hidden;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      margin: auto;
+      background-color: black;
+      opacity:0.6;
+    }
 
-.navbar a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px; 
-}
+    .navbar a {
+      float: left;
+      display: block;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
 
-.navbar a:hover {
+    .navbar a:hover {
 
-}
+    }
 
-.navbar a.active {
-  background-color: #4CAF50;
-  color: white;
-}
+    .navbar a.active {
+      background-color: #4CAF50;
+      color: white;
+    }
 
-.main {
-  padding: 16px;
-  margin-bottom: 30px;
-}
+    .main {
+      padding: 16px;
+      margin-bottom: 30px;
+    }
 
+    .camera-movement{
+      float: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
-.camera-movement{ 
-  float: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+    .lights-button{
+      float: right;
+    }
 
-.lights-button{
-	float: right;
-}
+    i.fa {
+      display: inline-block;
+      border-radius: 60px;
+      box-shadow: 0px 0px 2px #888;
+      padding: 0.5em 0.6em;
+    }
 
-i.fa {
-  display: inline-block;
-  border-radius: 60px;
-  box-shadow: 0px 0px 2px #888;
-  padding: 0.5em 0.6em;
-  
+    img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 35%
+    }
 
-}
+    button {
+        background-color: Transparent;
+        background-repeat:no-repeat;
+        border: none;
+        cursor:pointer;
+        overflow: hidden;
+        outline:none;
+    }
 
-img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 35%
-}
+    .camera-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
 
-button {
-    background-color: Transparent;
-    background-repeat:no-repeat;
-    border: none;
-    cursor:pointer;
-    overflow: hidden;
-    outline:none;
-}
-	
-//CSS
-.camera-bg {
-  position: fixed; 
-  top: 0; 
-  left: 0; 
+      /* Preserve aspet ratio */
+      min-width: 100%;
+      min-height: 100%;
 
-  /* Preserve aspet ratio */
-  min-width: 100%;
-  min-height: 100%;
-
-    /* Full height */
-  height: 100%;
+        /* Full height */
+      height: 100%;
 
 
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+      /* Center and scale the image nicely */
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
 
-}
+    }
 
-.top-right-logo {
-  position: absolute;
-  top: 3%;
-  left: 2%;
-  font-size: 38px;
-  color: white;
-  opacity: 0.5;
-}
+    .top-right-logo {
+      position: absolute;
+      top: 3%;
+      left: 2%;
+      font-size: 38px;
+      color: white;
+      opacity: 0.5;
+    }
 
-body {
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    background-color: black;
-}
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background-color: black;
+    }
 
+    .controls {
+      width:220px;
+      height:220px;
+      background:#F0F0F0;
+      position:relative;
+    }
 
-</style>
+    .controls ul, .controls li {
+      list-style:none;
+      margin:0;
+      padding:0;
+    }
+
+    .controls li {
+      width:50px;
+      height:50px;
+      border:5px outset #DDDDDD;
+      background:#CCCCCC;
+      position:absolute;
+      cursor:pointer;
+      line-height:50px;
+      text-align:center;
+    }
+
+    .controls .up {left:50%;margin-left:-35px;}
+    .controls .down {left:50%;bottom:0;margin-left:-35px;}
+    .controls .left {top:50%;margin-top:-35px;}
+    .controls .right {top:50%;right:0;margin-top:-35px;}
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-
-<title>Make - PiStream</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <body>
 
-<div class="main" id="newpost">
-  <img  class="camera-bg" style="width: 100%; height:80%; background-attachment: fixed;" id="bg" class="center" src="{{ url_for('video_feed') }}">
-  <!--<img  class="camera-bg" style="width: 100%; height:80%; background-attachment: fixed;" id="bg" class="center" src="https://www.psdbox.com/wp-content/uploads/2011/01/security-camera-photoshop-effect.jpg">-->
-     
-</div>
-
-  <div class="top-right-logo">
-  	<a></a>Raspberry Pi - Camera Stream </a>
+  <div class="controls">
+    <ul>
+      <li class="up" data-action="tilt:-1">Up</li>
+      <li class="down" data-action="tilt:+1">Down</li>
+      <li class="left" data-action="pan:+1">Left</li>
+      <li class="right" data-action="pan:-1">Right</li>
+    </ul>
   </div>
 
+  <div class="main" id="newpost">
+    <img  class="camera-bg" style="width: 100%; height:80%; background-attachment: fixed;" id="bg" class="center" src="{{ url_for('video_feed') }}">
+  </div>
 
-<div class="navbar">
+  <div class="top-right-logo">
+    <a></a>Raspberry Pi - Camera Stream </a>
+  </div>
 
-    <div class="ignoreCall">
-          <a id=decline class="but_def">
-              <button id="button"> 
-                  <i style="background: red; color: white;" class="fa fa-times fa-2x" aria-hidden="true"></i>
-              </button>
-         </a>       
-    </div>
+  <div class="navbar">
+      <div class="ignoreCall">
+            <a id=decline class="but_def">
+                <button id="button">
+                    <i style="background: red; color: white;" class="fa fa-times fa-2x" aria-hidden="true"></i>
+                </button>
+           </a>
+      </div>
+  </div>
 
-</div>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    var button = document.getElementById('button');
 
+    button.onclick = function() {
+        var div = document.getElementById('newpost');
+        if (div.style.display !== 'none') {
+            div.style.display = 'none';
+        }
+        else {
+            div.style.display = 'block';
+        }
+    };
+  </script>
 
-    
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    var current_pan = 90;
+    var current_tilt = 90;
+    var pantilt_speed = 60; // Delay between increments in ms
 
-<script type="text/javascript">
-  
-var button = document.getElementById('button');
+    var interval = null;
+    var current_direction = null;
+    var current_angle = null;
 
-button.onclick = function() {
-    var div = document.getElementById('newpost');
-    if (div.style.display !== 'none') {
-        div.style.display = 'none';
-    }
-    else {
-        div.style.display = 'block';
-    }
-};
-   
-</script>
+    $(function(){
+      $(window).on('keydown',function(e){
+        clearInterval(interval);
+
+        switch(e.keyCode){
+          case 38: // Arrow Up
+            current_direction = 'tilt';
+            current_angle = 1;
+            interval = setInterval(pantilt,pantilt_speed);
+            break;
+          case 40: // Arrow Down
+            current_direction = 'tilt';
+            current_angle = -1;
+            interval = setInterval(pantilt,pantilt_speed);
+            break;
+          case 37: // Arrow Left
+            current_direction = 'pan';
+            current_angle = 1;
+            interval = setInterval(pantilt,pantilt_speed);
+            break;
+          case 39: // Arrow Right
+            current_direction = 'pan';
+            current_angle = -1;
+            interval = setInterval(pantilt,pantilt_speed);
+            break;
+        }
+      });
+      $(window).on('keyup',function(e){clearInterval(interval)});
+      $('.controls').on('mousedown','li',function(e){
+        e.preventDefault();
+        clearInterval(interval);
+
+        var obj = $(this);
+        var action = obj.data('action');
+        current_direction = action.split(':')[0];
+        current_angle = parseInt(action.split(':')[1]);
+
+        interval = setInterval(pantilt,pantilt_speed);
+      })
+      .on('mouseup','li',function(e){
+        clearInterval(interval);
+      });
+
+      function pantilt(){
+        var angle = 0;
+
+        if(current_direction == 'pan'){
+          current_pan += current_angle;
+          if(current_pan < 0) current_pan = 0;
+          if(current_pan > 180) current_pan = 180;
+          angle = current_pan;
+        }
+
+        if(current_direction == 'tilt'){
+          current_tilt += current_angle;
+          if(current_tilt < 0) current_tilt = 0;
+          if(current_tilt > 180) current_tilt = 180;
+          angle = current_tilt;
+        }
+
+        $.get('/api/' + current_direction + '/' + angle);
+      }
+    });
+  </script>
 
 </body>
 </html>

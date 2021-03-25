@@ -1,8 +1,8 @@
 # Pi Pan-Tilt Stream
 
 This is a combination of the following projects
-* https://github.com/pimoroni/pantilt-hat
 * https://github.com/EbenKouao/pi-camera-stream-flask
+* https://github.com/pimoroni/pantilt-hat/tree/master/examples/pantiltweb
 
 ## Screenshots
 TODO

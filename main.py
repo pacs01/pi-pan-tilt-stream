@@ -1,5 +1,6 @@
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response
 from camera import VideoCamera
+import pantilthat
 
 pi_camera = VideoCamera(flip=True)  # flip pi camera if upside down.
 
@@ -22,6 +23,24 @@ def gen(camera):
 def video_feed():
     return Response(gen(pi_camera),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
+@app.route('/api/<direction>/<int:angle>')
+def api(direction, angle):
+    if angle < 0 or angle > 180:
+        return "{'error':'out of range'}"
+
+    angle -= 90
+
+    if direction == 'pan':
+        pantilthat.pan(angle)
+        return "{{'pan':{}}}".format(angle)
+
+    elif direction == 'tilt':
+        pantilthat.tilt(angle)
+        return "{{'tilt':{}}}".format(angle)
+
+    return "{'error':'invalid direction'}"
 
 
 if __name__ == '__main__':
