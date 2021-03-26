@@ -15,24 +15,10 @@
       position: fixed;
       bottom: 0;
       width: 100%;
+      height: 120px;
       margin: auto;
       background-color: black;
       opacity:0.6;
-    }
-
-    .navbar a {
-      float: left;
-      display: block;
-      color: #f2f2f2;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-      font-size: 17px;
-    }
-
-    .navbar a.active {
-      background-color: #4CAF50;
-      color: white;
     }
 
     .main {
@@ -40,18 +26,10 @@
       margin-bottom: 30px;
     }
 
-    i.fa {
-      display: inline-block;
-      border-radius: 60px;
-      box-shadow: 0 0 2px #888;
-      padding: 0.5em 0.6em;
-    }
-
     img {
         display: block;
         margin-left: auto;
         margin-right: auto;
-        width: 35%
     }
 
     button {
@@ -67,22 +45,15 @@
       position: fixed;
       top: 0;
       left: 0;
-
-      /* Preserve aspet ratio */
       min-width: 100%;
       min-height: 100%;
-
-      /* Full height */
       height: 100%;
-
-      /* Center and scale the image nicely */
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
-
     }
 
-    .top-left-logo {
+    .logo-top-left {
       position: absolute;
       top: 3%;
       left: 2%;
@@ -110,15 +81,9 @@
       z-index: 100;
     }
 
-    .controls ul, .controls li {
-      list-style:none;
-      margin:0;
-      padding:0;
-    }
-
-    .controls li {
-      width:50px;
-      height:50px;
+    .controls button {
+      width:60px;
+      height:60px;
       border:5px outset #DDDDDD;
       background:#CCCCCC;
       position:absolute;
@@ -147,48 +112,24 @@
 </head>
 
 <body>
-
-  <div class="main" id="newpost">
-    <img class="camera-bg center" style="width: 100%; height:80%; background-attachment: fixed;" id="bg" src="{{ url_for('video_feed') }}">
+  <div class="main">
+    <img  class="camera-bg" style="width: 100%; height:80%; background-attachment: fixed;" id="bg" src="https://www.psdbox.com/wp-content/uploads/2011/01/security-camera-photoshop-effect.jpg">
   </div>
 
-  <div class="top-left-logo">
+  <div class="logo-top-left">
     <a>Camera Stream</a>
   </div>
 
   <div class="navbar">
-      <div class="ignoreCall">
-          <a id=decline class="but_def">
-              <button id="button">
-                  <i style="background: red; color: white;" class="fa fa-times fa-2x" aria-hidden="true"></i>
-              </button>
-         </a>
-      </div>
       <div class="controls">
-        <ul>
-          <li class="up" data-action="tilt:-1">Up</li>
-          <li class="down" data-action="tilt:+1">Down</li>
-          <li class="left" data-action="pan:+1">Left</li>
-          <li class="right" data-action="pan:-1">Right</li>
-        </ul>
+          <button class="up" data-action="tilt:-1">Up</button>
+          <button class="down" data-action="tilt:+1">Down</button>
+          <button class="left" data-action="pan:+1">Left</button>
+          <button class="right" data-action="pan:-1">Right</button>
       </div>
   </div>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script type="text/javascript">
-    var button = document.getElementById('button');
-
-    button.onclick = function() {
-        var div = document.getElementById('newpost');
-        if (div.style.display !== 'none') {
-            div.style.display = 'none';
-        }
-        else {
-            div.style.display = 'block';
-        }
-    };
-  </script>
-
   <script
       src="https://code.jquery.com/jquery-3.1.1.min.js"
       integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
@@ -230,7 +171,7 @@
         }
       });
       $(window).on('keyup',function(e){clearInterval(interval)});
-      $('.controls').on('mousedown','li',function(e){
+      $('.controls').on('mousedown','button',function(e){
         e.preventDefault();
         clearInterval(interval);
 
@@ -241,7 +182,7 @@
 
         interval = setInterval(pantilt,pantilt_speed);
       })
-      .on('mouseup','li',function(e){
+      .on('mouseup','button',function(e){
         clearInterval(interval);
       });
 
