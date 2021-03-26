@@ -2,7 +2,7 @@ from flask import Flask, render_template, Response
 from camera import VideoCamera
 import pantilthat
 
-pi_camera = VideoCamera(flip=False)  # flip pi camera if upside down.
+pi_camera = VideoCamera(flip=True)  # flip pi camera if upside down.
 
 app = Flask(__name__)
 
