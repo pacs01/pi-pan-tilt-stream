@@ -171,7 +171,7 @@
         }
       });
       $(window).on('keyup',function(e){clearInterval(interval)});
-      $('.controls').on('mousedown','button',function(e){
+      $('.controls').on('mousedown touchstart','button',function(e){
         e.preventDefault();
         clearInterval(interval);
 
@@ -182,7 +182,7 @@
 
         interval = setInterval(pantilt,pantilt_speed);
       })
-      .on('mouseup','button',function(e){
+      .on('mouseup touched','button',function(e){
         clearInterval(interval);
       });
 
