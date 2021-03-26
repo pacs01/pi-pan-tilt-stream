@@ -182,7 +182,7 @@
 
         interval = setInterval(pantilt,pantilt_speed);
       })
-      .on('mouseup touched','button',function(e){
+      .on('mouseup touchend','button',function(e){
         clearInterval(interval);
       });
 
